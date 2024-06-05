@@ -1,0 +1,3 @@
+git remote set-url origin https://github.com/seongho-shain/donga2.git
+git config --global user.name "seongho-shain"
+git config --global user.email "shain1912@gmail.com"
