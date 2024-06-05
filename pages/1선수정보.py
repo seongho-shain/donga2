@@ -17,8 +17,11 @@ def display_roster():
     # 선택된 기수 및 종목에 따라 데이터 필터링
     filtered_df = players_df[(players_df['기수'] == selected_team) & (players_df['종목'] == selected_game)]
 
+    # 인덱스를 리셋하여 제거
+    filtered_df = filtered_df.reset_index(drop=True)
+
     st.subheader(f"Players in {selected_team} - {selected_game}")
-    st.dataframe(filtered_df)
+    st.table(filtered_df)
 
 if __name__ == '__main__':
     display_roster()

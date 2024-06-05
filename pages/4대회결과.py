@@ -8,12 +8,12 @@ points = {1: 40, 2: 20, 3: 10, 4: 0}
 
 def load_results():
     try:
-        return pd.read_csv('results.csv', index_col=0)
+        return pd.read_csv('data/results.csv', index_col=0)
     except FileNotFoundError:
         return pd.DataFrame(0, index=teams, columns=games + ["총합"])
 
 def save_results(df):
-    df.to_csv('results.csv')
+    df.to_csv('data/results.csv')
 
 def update_scores(results_df):
     for game in games:
@@ -41,7 +41,7 @@ def main():
     results_df = load_results()
 
     st.header("대회 결과")
-    st.dataframe(results_df)
+    st.table(results_df)
 
     st.header("결과 입력")
     update_scores(results_df)

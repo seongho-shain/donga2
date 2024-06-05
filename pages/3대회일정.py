@@ -15,7 +15,7 @@ def main():
     schedule_df = load_schedule()
 
     st.subheader("현재 일정")
-    st.dataframe(schedule_df)
+    st.table(schedule_df)
 
     st.subheader("일정 추가")
     with st.form(key='add_schedule_form'):
@@ -24,7 +24,7 @@ def main():
         team1 = st.selectbox("팀1", ["1기 대표", "2기 대표", "3기 대표", "4기 대표"])
         team2 = st.selectbox("팀2", ["1기 대표", "2기 대표", "3기 대표", "4기 대표"])
         game = st.selectbox("종목", ["LOL", "Valorant", "FIFA"])
-        discord_link = st.text_input("디스코드 링크", "https://discord.gg/example")
+        discord_link = st.text_input("디스코드 링크", "https://discord.gg/3KQAUGSUj5")
         prediction_link = st.text_input("승부예측 링크", "https://prediction.com/example")
         submit_button = st.form_submit_button(label='일정 추가')
 

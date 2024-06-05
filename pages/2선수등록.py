@@ -84,7 +84,7 @@ def register_player():
                 st.success(f"Player {name} registered!")
 
     st.header("Registered Players")
-    st.dataframe(players_df)
+    st.table(players_df)
 
 if __name__ == '__main__':
     register_player()
