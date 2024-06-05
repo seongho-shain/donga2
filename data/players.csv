@@ -1,2 +1,21 @@
-학번,이름,게임ID,기수,종목
-1101,홍길동,Hide on Bush#kr1,1기,LOL
+종목,기수,학번,이름,게임ID
+LOL,1기,1101,홍길동1,Hide on Bush#kr1
+LOL,1기,1102,홍길동2,Hide on Bush#kr2
+LOL,1기,1103,홍길동3,Hide on Bush#kr3
+LOL,1기,1104,홍길동4,Hide on Bush#kr4
+LOL,1기,1105,홍길동5,Hide on Bush#kr5
+LOL,2기,2101,홍길동1,Hide on Bush#kr1
+LOL,2기,2102,홍길동2,Hide on Bush#kr2
+LOL,2기,2103,홍길동3,Hide on Bush#kr3
+LOL,2기,2104,홍길동4,Hide on Bush#kr4
+LOL,2기,2105,홍길동5,Hide on Bush#kr5
+LOL,3기,3101,홍길동1,Hide on Bush#kr1
+LOL,3기,3102,홍길동2,Hide on Bush#kr2
+LOL,3기,3103,홍길동3,Hide on Bush#kr3
+LOL,3기,3104,홍길동4,Hide on Bush#kr4
+LOL,3기,3105,홍길동5,Hide on Bush#kr5
+LOL,4기,4101,홍길동1,Hide on Bush#kr1
+LOL,4기,4102,홍길동2,Hide on Bush#kr2
+LOL,4기,4103,홍길동3,Hide on Bush#kr3
+LOL,4기,4104,홍길동4,Hide on Bush#kr4
+LOL,4기,4105,홍길동5,Hide on Bush#kr5
