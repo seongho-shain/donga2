@@ -1,4 +1,4 @@
-game,team1,team2,date,time
-LOL,Team A,Team B,2023-06-01,15:00
-FIFA,Team C,Team D,2023-06-02,16:00
-Valorant,Team E,Team F,2023-06-03,17:00
+datetime,team1,team2,game,discord_link,prediction_link
+2024-06-01 14:00:00,1기 대표,2기 대표,LOL,https://discord.gg/example1,https://prediction.com/example1
+2024-06-02 15:00:00,3기 대표,4기 대표,Valorant,https://discord.gg/example2,https://prediction.com/example2
+2024-06-03 16:00:00,1기 대표,3기 대표,FIFA,https://discord.gg/example3,https://prediction.com/example3
