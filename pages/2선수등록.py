@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+from Modules.Module_sendDiscord import sendDiscord
+
 def load_players():
     return pd.read_csv('data/players.csv', dtype={'학번': str})
 
@@ -55,6 +57,10 @@ def register_player():
             else:
                 save_players(players_df)
                 st.success("Players registered successfully!")
+                sendDiscord(
+                    title=f"선수 등록 안내 - {game}",
+                    text=f"> **{players_df.at[0, '이름']}({players_df.at[0, '학번']})** \n  ㄴ 기수: {players_df.at[0, '기수']} \n  ㄴ ID: {players_df.at[0, '게임ID']} \n\n> **{players_df.at[1, '이름']}({players_df.at[1, '학번']})** \n  ㄴ 기수: {players_df.at[1, '기수']} \n  ㄴ ID: {players_df.at[1, '게임ID']} \n\n> **{players_df.at[2, '이름']}({players_df.at[2, '학번']})** \n  ㄴ 기수: {players_df.at[2, '기수']} \n  ㄴ ID: {players_df.at[2, '게임ID']} \n\n> **{players_df.at[3, '이름']}({players_df.at[3, '학번']})** \n  ㄴ 기수: {players_df.at[3, '기수']} \n  ㄴ ID: {players_df.at[3, '게임ID']} \n\n> **{players_df.at[4, '이름']}({players_df.at[4, '학번']})** \n  ㄴ 기수: {players_df.at[4, '기수']} \n  ㄴ ID: {players_df.at[4, '게임ID']}"
+                )
 
     else:
         st.subheader(f"Register a Player for {game}")
