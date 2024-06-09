@@ -21,7 +21,7 @@ def register_player():
     game = st.selectbox("Game", ["LOL", "FIFA", "Valorant"])
 
     if game in ["LOL", "Valorant"]:
-        st.subheader(f"Register 5 Players for {game}")
+        st.subheader(f"{game}의 게임은 5명의 플레이어를 등록 하여 주시기 바랍니다.")
 
         ids = []
         names = []
@@ -56,8 +56,9 @@ def register_player():
                     st.error(error)
             else:
                 save_players(players_df)
-                st.success("Players registered successfully!")
+                st.success("정상적으로 등록이 완료 되었습니다!")
                 sendDiscord(
+                    url=st.secrets["webhookURL"],
                     title=f"선수 등록 안내 - {game}",
                     text=f"> **{players_df.at[0, '이름']}({players_df.at[0, '학번']})** \n  ㄴ 기수: {players_df.at[0, '기수']} \n  ㄴ ID: {players_df.at[0, '게임ID']} \n\n> **{players_df.at[1, '이름']}({players_df.at[1, '학번']})** \n  ㄴ 기수: {players_df.at[1, '기수']} \n  ㄴ ID: {players_df.at[1, '게임ID']} \n\n> **{players_df.at[2, '이름']}({players_df.at[2, '학번']})** \n  ㄴ 기수: {players_df.at[2, '기수']} \n  ㄴ ID: {players_df.at[2, '게임ID']} \n\n> **{players_df.at[3, '이름']}({players_df.at[3, '학번']})** \n  ㄴ 기수: {players_df.at[3, '기수']} \n  ㄴ ID: {players_df.at[3, '게임ID']} \n\n> **{players_df.at[4, '이름']}({players_df.at[4, '학번']})** \n  ㄴ 기수: {players_df.at[4, '기수']} \n  ㄴ ID: {players_df.at[4, '게임ID']}"
                 )

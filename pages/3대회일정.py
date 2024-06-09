@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+from Modules.Module_sendDiscord import sendDiscordEmbed
+
 def load_schedule():
     return pd.read_csv('data/schedule.csv', parse_dates=['datetime'])
 
@@ -40,12 +42,20 @@ def main():
         })
         schedule_df = pd.concat([schedule_df, new_schedule], ignore_index=True)
         save_schedule(schedule_df)
+        sendDiscordEmbed(
+            url=st.secrets["webhookURL"],
+            title=f"대회 일정 안내 - {game}",
+            datetimeInfo=datetime,
+            discordInfo=discord_link,
+            predictionInfo=prediction_link,
+            teamInfo=[team1, team2]
+        )
         st.success("일정이 추가되었습니다.")
         st.experimental_rerun()
 
     st.subheader("일정 삭제")
     with st.form(key='delete_schedule_form'):
-        index_to_delete = st.number_input("삭제할 일정의 인덱스 번호", min_value=0, max_value=len(schedule_df)-1, step=1)
+        index_to_delete = st.number_input("삭제할 일정의 인덱스 번호", min_value=0, max_value=len(schedule_df) if len(schedule_df) == 0 else len(schedule_df)-1, step=1)
         delete_button = st.form_submit_button(label='일정 삭제')
 
     if delete_button:
