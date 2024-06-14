@@ -1,50 +1,84 @@
 import streamlit as st
-import pandas as pd
+import matplotlib.pyplot as plt
+import networkx as nx
+import matplotlib.font_manager as fm
 
-# 초기 데이터 설정
-teams = ["1기", "2기", "3기", "4기"]
-games = ["LOL", "Valorant", "FIFA"]
-points = {1: 40, 2: 20, 3: 10, 4: 0}
+# 시스템에 설치된 한글 폰트를 사용하여 matplotlib에 설정
+font_path = 'C:/Windows/Fonts/경기천년제목V_Bold.ttf'  # 예: Windows
+fontprop = fm.FontProperties(fname=font_path, size=10)
 
-def load_results():
-    try:
-        return pd.read_csv('results.csv', index_col=0)
-    except FileNotFoundError:
-        return pd.DataFrame(0, index=teams, columns=games + ["총합"])
+def draw_double_elimination_bracket(teams, winners, losers):
+    G = nx.DiGraph()
 
-def save_results(df):
-    df.to_csv('results.csv')
+    # 각 팀의 위치 설정
+    G.add_node(teams[0], pos=(0, 8), color='skyblue')
+    G.add_node(teams[1], pos=(0, 7), color='skyblue')
+    G.add_node(teams[2], pos=(0, 6), color='skyblue')
+    G.add_node(teams[3], pos=(0, 5), color='skyblue')
 
-def update_scores(results_df):
-    for game in games:
-        with st.expander(f"{game} 결과 입력"):
-            first = st.selectbox(f"{game} 1등", teams, key=f"{game}_1st")
-            second = st.selectbox(f"{game} 2등", teams, key=f"{game}_2nd")
-            third = st.selectbox(f"{game} 3등", teams, key=f"{game}_3rd")
-            fourth = st.selectbox(f"{game} 4등", teams, key=f"{game}_4th")
+    # 승자조 라운드 1
+    G.add_node(winners[0], pos=(1, 7.5), color='lightgreen')
+    G.add_node(winners[1], pos=(1, 5.5), color='lightgreen')
+    G.add_edge(teams[0], winners[0])
+    G.add_edge(teams[1], winners[0])
+    G.add_edge(teams[2], winners[1])
+    G.add_edge(teams[3], winners[1])
 
-            if st.button(f"{game} 결과 저장", key=f"{game}_save"):
-                results_df.loc[:, game] = 0  # Reset the current game's points
-                results_df.loc[first, game] = points[1]
-                results_df.loc[second, game] = points[2]
-                results_df.loc[third, game] = points[3]
-                results_df.loc[fourth, game] = points[4]
+    # 승자조 라운드 2
+    G.add_node(winners[2], pos=(2, 6.5), color='lightgreen')
+    G.add_edge(winners[0], winners[2])
+    G.add_edge(winners[1], winners[2])
 
-                results_df["총합"] = results_df[games].sum(axis=1)
-                save_results(results_df)
-                st.success(f"{game} 결과가 저장되었습니다.")
-                st.experimental_rerun()
+    # 패자조 라운드 1
+    G.add_node(losers[0], pos=(0, 4), color='salmon')
+    G.add_node(losers[1], pos=(0, 3), color='salmon')
+    
+    # 패자조 라운드 2
+    G.add_node(winners[3], pos=(1, 4), color='salmon')
+    G.add_node(losers[2], pos=(1, 3), color='salmon')
+    G.add_edge(losers[0], winners[3])
+    G.add_edge(losers[1], winners[3])
 
-def main():
-    st.title("코드코리아배 부산소프트웨어마이스터고 E스포츠 대회 결과")
+    # 패자조 라운드 3
+    G.add_node(winners[4], pos=(2, 4), color='salmon')
+    G.add_edge(losers[2], winners[4])
+    G.add_edge(winners[3], winners[4])
 
-    results_df = load_results()
+    # 결승전
+    G.add_node("챔피언", pos=(3, 5), color='gold')
+    G.add_edge(winners[4], "챔피언")
+    G.add_edge(winners[2], "챔피언")
 
-    st.header("대회 결과")
-    st.dataframe(results_df)
+    pos = nx.get_node_attributes(G, 'pos')
+    node_colors = [nx.get_node_attributes(G, 'color')[node] for node in G.nodes()]
 
-    st.header("결과 입력")
-    update_scores(results_df)
+    fig, ax = plt.subplots(figsize=(12, 8))
 
-if __name__ == '__main__':
-    main()
+    # 노드와 엣지 그리기
+    nx.draw_networkx_edges(G, pos, ax=ax)
+    nx.draw_networkx_labels(G, pos, ax=ax, font_size=10, font_color='black', font_family=fontprop.get_name())
+
+    # 사각형 노드 그리기
+    for node, (x, y) in pos.items():
+        ax.add_patch(plt.Rectangle((x - 0.2, y - 0.1), 0.4, 0.2, fill=True, color=nx.get_node_attributes(G, 'color')[node], transform=ax.transData))
+
+    plt.title("더블 엘리미네이션 토너먼트 대진표", fontproperties=fontprop)
+    plt.axis('off')
+    st.pyplot(fig)
+
+# 스트림릿 앱 설정
+st.title("더블 엘리미네이션 토너먼트 대진표")
+
+# 팀 리스트
+teams = ["1기", "3기", "2기", "4기"]
+
+# 사용자 입력을 위한 텍스트 입력 필드
+winners = []
+for i in range(5):
+    winners.append(st.text_input(f"승자 {i + 1}", f"승자 {i + 1}"))
+
+losers = []
+for i in range(3):
+    losers.append(st.text_input(f"패자 {i + 1}", f"패자 {i + 1}"))
+
+draw_double_elimination_bracket(teams, winners, losers)
